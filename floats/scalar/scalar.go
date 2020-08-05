@@ -9,8 +9,8 @@ import (
 	"strconv"
 )
 
-// EqualWithinAbs returns true if a and b have an absolute
-// difference of less than tol.
+// EqualWithinAbs returns true if a and b have an absolute difference
+// not greater than tol.
 func EqualWithinAbs(a, b, tol float64) bool {
 	return a == b || math.Abs(a-b) <= tol
 }
@@ -34,13 +34,10 @@ func EqualWithinRel(a, b, tol float64) bool {
 	return delta/math.Max(math.Abs(a), math.Abs(b)) <= tol
 }
 
-// EqualWithinAbsOrRel returns true if a and b are equal to within
-// the absolute tolerance.
+// EqualWithinAbsOrRel returns true if parts of a and b are equal to within
+// the absolute or relative tolerances.
 func EqualWithinAbsOrRel(a, b, absTol, relTol float64) bool {
-	if EqualWithinAbs(a, b, absTol) {
-		return true
-	}
-	return EqualWithinRel(a, b, relTol)
+	return EqualWithinAbs(a, b, absTol) || EqualWithinRel(a, b, relTol)
 }
 
 // EqualWithinULP returns true if a and b are equal to within

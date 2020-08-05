@@ -12,7 +12,7 @@ import (
 )
 
 // EqualWithinAbs returns true if a and b have an absolute difference
-// of less than tol.
+// not greater than tol.
 func EqualWithinAbs(a, b complex128, tol float64) bool {
 	return a == b || cmplx.Abs(a-b) <= tol
 }
@@ -37,12 +37,9 @@ func EqualWithinRel(a, b complex128, tol float64) bool {
 }
 
 // EqualWithinAbsOrRel returns true if parts of a and b are equal to within
-// the absolute tolerance.
+// the absolute or relative tolerances.
 func EqualWithinAbsOrRel(a, b complex128, absTol, relTol float64) bool {
-	if EqualWithinAbs(a, b, absTol) {
-		return true
-	}
-	return EqualWithinRel(a, b, relTol)
+	return EqualWithinAbs(a, b, absTol) || EqualWithinRel(a, b, relTol)
 }
 
 // ParseWithNA converts the string s to a complex128 in v.
